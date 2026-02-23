@@ -48,6 +48,11 @@ class Renderer {
     }
 
     drawPath(path) {
+        if (!path || path.length === 0 || !this.ctx) {
+            console.warn('Cannot draw path - missing path, context, or renderer not initialized');
+            return;
+        }
+
         const ctx = this.ctx;
         ctx.strokeStyle = 'rgba(251, 193, 36, 0.3)';
         ctx.lineWidth = CONFIG.GAME.GRID_SIZE * this.scale - 4;

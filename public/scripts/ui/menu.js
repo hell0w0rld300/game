@@ -94,7 +94,6 @@ class MenuSystem {
     }
 
     startGame() {
-        gameState.gameMode = CONSTANTS.GAME_STATE.PLAYING;
         gameState.reset();
 
         const settings = loadSettings();
@@ -104,14 +103,23 @@ class MenuSystem {
         gameState.difficulty = settings.difficulty;
         gameState.difficultyMultiplier = applyDifficulty(settings.difficulty);
 
+        // Setup game map BEFORE switching to playing mode
         gameState.gameMap = {
             path: generateDefaultPath(),
         };
 
+        // Initialize renderer BEFORE playing mode (which triggers render)
         initRenderer();
+
+        // Show game screen BEFORE playing mode
         showScreen('gameScreen');
-        waveSystem.startWave();
+
+        // NOW we can set playing mode and start rendering
+        gameState.gameMode = CONSTANTS.GAME_STATE.PLAYING;
         gameState.frameCount = 0;
+
+        // Start wave after everything is initialized
+        waveSystem.startWave();
     }
 
     createRoom() {

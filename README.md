@@ -60,10 +60,26 @@ public/
 
 ## 🚀 Quick Start
 
-1. Open `public/index.html` in a modern web browser
-2. Select Single Player or Multiplayer
-3. Customize settings if desired
-4. Start playing!
+### Play Online
+- **Deployment**: Ready for Vercel, Netlify, or any static host
+- **Default Domain**: Deploy to `tower-defense-pro.vercel.app`
+- See [DEPLOYMENT.md](DEPLOYMENT.md) for hosting guide
+
+### Play Locally
+
+```bash
+# Option 1: Python HTTP Server (Recommended)
+python3 -m http.server 8000
+# Visit: http://localhost:8000/public
+
+# Option 2: Using npm
+npm run serve
+
+# Option 3: VS Code Live Server
+# Right-click public/index.html → Open with Live Server
+```
+
+**Then**: Select Single Player or Multiplayer → Customize settings (optional) → Start playing!
 
 ## 📊 Code Statistics
 
@@ -128,10 +144,108 @@ Supported languages: English, 中文 (Simplified Chinese)
 - Replay recording
 - Achievement system
 
+## 🚢 Deployment
+
+### One-Click Deploy to Vercel
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hell0w0rld300/game)
+
+### Manual Deployment
+
+**Vercel CLI**
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+**GitHub → Vercel**
+1. Push to GitHub
+2. Connect repository at [vercel.com](https://vercel.com)
+3. Auto-deploys on push
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment guide including:
+- Vercel setup
+- Custom domains
+- Performance optimization
+- Troubleshooting
+- Monitoring
+
+## 💻 Development
+
+### Local Setup
+```bash
+git clone https://github.com/hell0w0rld300/game.git
+cd game
+npm run serve
+# Visit http://localhost:8000/public
+```
+
+### Project Structure
+- `public/index.html` - Main entry point
+- `public/scripts/` - Game logic (26 files)
+- `public/styles/` - Styling (5 files)
+- `vercel.json` - Deployment configuration
+
+### Making Changes
+1. Edit files in `public/` directory
+2. Refresh browser (or use Live Server for auto-reload)
+3. Test changes
+4. Commit and push
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for:
+- Development workflow
+- Code organization
+- Adding new towers/enemies
+- Testing checklist
+- Performance tips
+
+## 🤝 Contributing
+
+Contributions welcome! Please:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** changes with clear messages
+4. **Push** to branch
+5. **Open** a Pull Request
+
+### Code Guidelines
+- Use clear, descriptive variable names
+- Add comments for complex logic
+- Test on multiple browsers
+- Follow existing code style
+- Keep commits atomic and focused
+
+## 📋 Project Stats
+
+| Metric | Value |
+|--------|-------|
+| Total Lines | ~4,600 |
+| Files | 31 |
+| Languages | JavaScript, CSS, HTML |
+| Systems | 7 core systems |
+| Towers | 6 types |
+| Enemies | 4 types |
+| UI Languages | 2 (EN, ZH) |
+| Dependencies | 0 external |
+| Browser Support | Chrome, Firefox, Safari, Edge |
+
 ## 📝 Version
 
 **Version**: 1.0.0
 **Status**: Production Ready
 **Last Updated**: February 2026
+**License**: MIT
 
-Enjoy the game! 🎮
+## 📚 Documentation
+
+- [README.md](README.md) - Project overview (this file)
+- [DEPLOYMENT.md](DEPLOYMENT.md) - Deployment and hosting guide
+- [DEVELOPMENT.md](DEVELOPMENT.md) - Development and contribution guide
+
+## 🎮 Play Now!
+
+**Local**: Open `public/index.html` in your browser
+**Online**: Deploy to Vercel with one click
+**Contribute**: Fork and submit PRs
+
+Enjoy the game! 🎮✨
