@@ -225,11 +225,22 @@ class Game {
     }
 
     render() {
+        // Safety check: renderer must be initialized
+        if (!renderer) {
+            return;
+        }
+
         // Clear canvas
         renderer.clear();
         renderer.frame();
 
         if (gameState.gameMode !== CONSTANTS.GAME_STATE.PLAYING) {
+            return;
+        }
+
+        // Safety check: game map must be set
+        if (!gameState.gameMap || !gameState.gameMap.path) {
+            console.warn('Game map not initialized');
             return;
         }
 
