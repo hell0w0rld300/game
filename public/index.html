@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Tower Defense - Multiplayer</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/hud.css">
+    <link rel="stylesheet" href="styles/towers.css">
+    <link rel="stylesheet" href="styles/enemies.css">
+    <link rel="stylesheet" href="styles/settings.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="screen menu-screen">
+            <div class="menu-content">
+                <h1 class="game-title">🎮 Tower Defense Pro</h1>
+                <div class="menu-buttons">
+                    <button id="singleplayerBtn" class="menu-btn btn-primary">
+                        <span class="btn-icon">🎯</span>
+                        <span>Single Player</span>
+                    </button>
+                    <button id="multiplayerBtn" class="menu-btn btn-secondary">
+                        <span class="btn-icon">👥</span>
+                        <span>Multiplayer</span>
+                    </button>
+                    <button id="settingsBtn" class="menu-btn btn-info">
+                        <span class="btn-icon">⚙️</span>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settingsScreen" class="screen settings-screen" style="display: none;">
+            <div class="settings-container">
+                <h2>Game Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label>Starting Health</label>
+                        <input type="range" id="startHealthSlider" min="10" max="100" value="20" step="5">
+                        <span id="startHealthValue">20</span>
+                    </div>
+                    <div class="setting-group">
+                        <label>Starting Gold</label>
+                        <input type="range" id="startGoldSlider" min="100" max="1000" value="500" step="50">
+                        <span id="startGoldValue">500</span>
+                    </div>
+                    <div class="setting-group">
+                        <label>Game Speed</label>
+                        <input type="range" id="gameSpeedSlider" min="0.5" max="3" value="1" step="0.25">
+                        <span id="gameSpeedValue">1.0×</span>
+                    </div>
+                    <div class="setting-group">
+                        <label>Difficulty</label>
+                        <select id="difficultySelect">
+                            <option value="easy">Easy (0.7×)</option>
+                            <option value="normal" selected>Normal (1.0×)</option>
+                            <option value="hard">Hard (1.5×)</option>
+                            <option value="extreme">Extreme (2.0×)</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label>Language</label>
+                        <select id="languageSelect">
+                            <option value="en">English</option>
+                            <option value="zh">中文</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label>Wave Duration (seconds)</label>
+                        <input type="range" id="waveDurationSlider" min="5" max="60" value="30" step="5">
+                        <span id="waveDurationValue">30s</span>
+                    </div>
+                </div>
+                <div class="settings-buttons">
+                    <button id="settingsApplyBtn" class="btn-success">Apply</button>
+                    <button id="settingsBackBtn" class="btn-secondary">Back</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiplayer Lobby -->
+        <div id="multiplayerLobby" class="screen multiplayer-lobby" style="display: none;">
+            <div class="lobby-container">
+                <h2>Multiplayer Lobby</h2>
+                <div class="room-list" id="roomList"></div>
+                <div class="lobby-controls">
+                    <button id="createRoomBtn" class="btn-primary">Create Room</button>
+                    <button id="lobbyBackBtn" class="btn-secondary">Back</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="gameScreen" class="screen game-screen" style="display: none;">
+            <div class="game-container">
+                <!-- HUD -->
+                <div class="hud-bar">
+                    <div class="hud-section">
+                        <div class="hud-item">
+                            <span class="hud-label">Wave</span>
+                            <span id="waveCounter" class="hud-value">1/10</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Lives</span>
+                            <span id="livesCounter" class="hud-value">❤️ 20</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Gold</span>
+                            <span id="goldCounter" class="hud-value">💰 500</span>
+                        </div>
+                    </div>
+
+                    <div class="hud-section">
+                        <div class="hud-item">
+                            <span class="hud-label">Score</span>
+                            <span id="scoreCounter" class="hud-value">0</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Enemies</span>
+                            <span id="enemyCounter" class="hud-value">0</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Towers</span>
+                            <span id="towerCounter" class="hud-value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="hud-section hud-controls">
+                        <button id="pauseBtn" class="btn-control" title="Pause">⏸</button>
+                        <button id="speedBtn" class="btn-control" title="Speed">1×</button>
+                        <button id="languageBtn" class="btn-control" title="Language">EN</button>
+                        <button id="menuBtn" class="btn-control" title="Menu">⋮</button>
+                    </div>
+                </div>
+
+                <!-- Game Canvas -->
+                <div class="canvas-container">
+                    <canvas id="gameCanvas" width="1200" height="700"></canvas>
+                    <div id="gameNotifications" class="notifications"></div>
+                </div>
+
+                <!-- Right Panel -->
+                <div class="right-panel">
+                    <!-- Tower Selector -->
+                    <div class="panel-section towers-section">
+                        <h3>Towers</h3>
+                        <div class="tower-grid" id="towerGrid"></div>
+                    </div>
+
+                    <!-- Info Panel -->
+                    <div class="panel-section info-section">
+                        <h3>Info</h3>
+                        <div id="infoPanel" class="info-content"></div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="panel-section stats-section">
+                        <h3>Statistics</h3>
+                        <div id="statsPanel" class="stats-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="modal" style="display: none;">
+        <div class="modal-content game-over-modal">
+            <h2 id="gameOverTitle">Game Over</h2>
+            <div id="gameOverStats" class="stats-grid"></div>
+            <div class="modal-buttons">
+                <button id="restartBtn" class="btn-primary">Restart</button>
+                <button id="menuFromGameBtn" class="btn-secondary">Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen" style="display: none;">
+        <div class="spinner"></div>
+        <p id="loadingText">Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/config.js"></script>
+    <script src="scripts/constants.js"></script>
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/gameState.js"></script>
+    <script src="scripts/systems/audio.js"></script>
+    <script src="scripts/systems/particles.js"></script>
+    <script src="scripts/systems/physics.js"></script>
+    <script src="scripts/systems/renderer.js"></script>
+    <script src="scripts/towers/tower.js"></script>
+    <script src="scripts/towers/arrow.js"></script>
+    <script src="scripts/towers/cannon.js"></script>
+    <script src="scripts/towers/ice.js"></script>
+    <script src="scripts/towers/tesla.js"></script>
+    <script src="scripts/towers/inferno.js"></script>
+    <script src="scripts/towers/chronos.js"></script>
+    <script src="scripts/enemies/enemy.js"></script>
+    <script src="scripts/enemies/normal.js"></script>
+    <script src="scripts/enemies/armored.js"></script>
+    <script src="scripts/enemies/swift.js"></script>
+    <script src="scripts/enemies/boss.js"></script>
+    <script src="scripts/systems/waves.js"></script>
+    <script src="scripts/ui/hud.js"></script>
+    <script src="scripts/ui/menu.js"></script>
+    <script src="scripts/systems/multiplayer.js"></script>
+    <script src="scripts/game.js"></script>
+</body>
+</html>
