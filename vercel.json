@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "public": true,
+  "buildCommand": "echo 'Static site - no build needed'",
+  "outputDirectory": "public",
+  "headers": [
+    {
+      "source": "/public/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/public/scripts/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/public/styles/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/public/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/public/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

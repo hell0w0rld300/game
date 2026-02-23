@@ -1,0 +1,37 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+build/
+
+# Cache
+.cache/
+.next/
+.vercel/
+
+# Temporary
+tmp/
+temp/
